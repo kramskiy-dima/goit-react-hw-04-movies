@@ -45,6 +45,7 @@ class MovieDetailsPage extends Component {
   render() {
     const { title, genres, vote_average } = this.state;
     const imgUrl = `https://image.tmdb.org/t/p/w500${this.state.poster_path}`;
+    const { match, location } = this.props;
 
     return (
       title && (
@@ -79,7 +80,10 @@ class MovieDetailsPage extends Component {
               <NavLink
                 className={s.link}
                 activeClassName={s.activeLink}
-                to={`${this.props.match.url}/cast`}
+                to={{
+                  pathname: `${match.url}/cast`,
+                  state: { ...location.state },
+                }}
               >
                 Cast
               </NavLink>
@@ -88,7 +92,10 @@ class MovieDetailsPage extends Component {
               <NavLink
                 className={s.link}
                 activeClassName={s.activeLink}
-                to={`${this.props.match.url}/reviews`}
+                to={{
+                  pathname: `${match.url}/reviews`,
+                  state: { ...location.state },
+                }}
               >
                 Reviews
               </NavLink>
@@ -96,11 +103,8 @@ class MovieDetailsPage extends Component {
           </ul>
           <ul className={s.list}>
             <Suspense fallback={<div>Loading...</div>}>
-              <Route path={`${this.props.match.path}/cast`} component={Cast} />
-              <Route
-                path={`${this.props.match.path}/reviews`}
-                component={Reviews}
-              />
+              <Route path={`${match.path}/cast`} component={Cast} />
+              <Route path={`${match.path}/reviews`} component={Reviews} />
             </Suspense>
           </ul>
         </>
